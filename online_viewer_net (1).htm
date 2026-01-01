@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anka Akademik - 3D Tasarım Eğitimi</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Light Theme */
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #f59e0b;
+            --bg-color: #ffffff;
+            --surface-color: #f8fafc;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #3b82f6;
+            --secondary-color: #2563eb;
+            --accent-color: #fbbf24;
+            --bg-color: #111827;
+            --surface-color: #1f2937;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="purple"] {
+            --primary-color: #7c3aed;
+            --secondary-color: #6d28d9;
+            --accent-color: #f59e0b;
+            --bg-color: #ffffff;
+            --surface-color: #faf5ff;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(124, 58, 237, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--surface-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .theme-selector {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .theme-btn {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            background-color: var(--surface-color);
+            color: var(--text-primary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .theme-btn:hover, .theme-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem 0;
+        }
+
+        .course-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .course-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .course-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        /* Video Section */
+        .video-section {
+            background-color: var(--surface-color);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        .video-header {
+            margin-bottom: 2rem;
+        }
+
+        .video-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .video-badge {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .video-container {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            background: #000;
+        }
+
+        .video-wrapper {
+            padding: 58.73% 0 0 0;
+            position: relative;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Course Info */
+        .course-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .info-card {
+            background-color: var(--surface-color);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .info-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Progress Bar */
+        .progress-section {
+            background-color: var(--surface-color);
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            width: 5%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--surface-color);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 0;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .course-title {
+                font-size: 2rem;
+            }
+            
+            .video-section {
+                padding: 1.5rem;
+            }
+            
+            .theme-selector {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .video-section, .info-card, .progress-section {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .info-card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .info-card:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Anka Akademik</span>
+                </div>
+                <div class="theme-selector">
+                    <button class="theme-btn active" onclick="setTheme('light')">
+                        <i class="fas fa-sun"></i> Açık
+                    </button>
+                    <button class="theme-btn" onclick="setTheme('dark')">
+                        <i class="fas fa-moon"></i> Koyu
+                    </button>
+                    <button class="theme-btn" onclick="setTheme('purple')">
+                        <i class="fas fa-palette"></i> Mor
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="course-header">
+                <h1 class="course-title">3D Tasarım Eğitimi</h1>
+                <p class="course-subtitle">Profesyonel 3D modelleme ve tasarım teknikleri öğrenin</p>
+            </div>
+
+            <div class="progress-section">
+                <div class="progress-header">
+                    <h3><i class="fas fa-chart-line"></i> Kurs İlerlemesi</h3>
+                    <span>1/20 Video (yakında)</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+
+            <div class="video-section">
+                <div class="video-header">
+                    <h2 class="video-title">
+                        <i class="fas fa-play-circle"></i>
+                        1. Video - 3D Tasarıma Giriş
+                        <span class="video-badge">YENİ</span>
+                    </h2>
+                </div>
+                <div class="video-container">
+                    <div class="video-wrapper">
+                        <iframe src="https://player.vimeo.com/video/1150853726?badge=0&autopause=0&player_id=0&app_id=58479" 
+                                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+                                referrerpolicy="strict-origin-when-cross-origin" 
+                                title="3D Tasarım Eğitimi - 1. Video"></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-info">
+                <div class="info-card">
+                    <h3><i class="fas fa-info-circle"></i> Bu Videoda Öğrenecekleriniz</h3>
+                    <p>3D tasarımın temel kavramları, endüstrideki yeri ve önemini öğreneceksiniz. Ayrıca hangi programları kullanacağımız ve kursun genel yapısı hakkında bilgi alacaksınız.</p>
+                </div>
+                <div class="info-card">
+                    <h3><i class="fas fa-clock"></i> Video Bilgileri</h3>
+                    <p><strong>Süre:</strong> Yaklaşık 25 dakika<br>
+                    <strong>Zorluk:</strong> Başlangıç<br>
+                    <strong>Kategori:</strong> Giriş ve Temel Bilgiler</p>
+                </div>
+                <div class="info-card">
+                    <h3><i class="fas fa-list"></i> Sonraki Videolar</h3>
+                    <p>• 2. Video - Yakında Gelecek<br>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Anka Akademik. Created by : brnalprn | Kaliteli eğitim, parlak gelecek.</p>
+        </div>
+    </footer>
+
+    <script src="https://player.vimeo.com/api/player.js"></script>
+    <script>
+
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            
+            // Update active button
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.closest('.theme-btn').classList.add('active');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            const themeButtons = {
+                'light': 0,
+                'dark': 1,
+                'purple': 2
+            };
+            
+            document.querySelectorAll('.theme-btn')[themeButtons[savedTheme]]?.classList.add('active');
+            
+
+            setTimeout(() => {
+                document.querySelector('.progress-fill').style.width = '5%';
+            }, 500);
+        });
+
+        // Video player enhancements
+        const iframe = document.querySelector('iframe');
+        if (iframe) {
+            const player = new Vimeo.Player(iframe);
+            
+            player.on('play', function() {
+                console.log('Video başladı!');
+            });
+            
+            player.on('ended', function() {
+                // Update progress when video ends
+                document.querySelector('.progress-fill').style.width = '10%';
+                
+                // Show completion message
+                const header = document.querySelector('.video-header h2');
+                if (!header.querySelector('.completed-badge')) {
+                    const badge = document.createElement('span');
+                    badge.className = 'video-badge completed-badge';
+                    badge.style.backgroundColor = '#10b981';
+                    badge.textContent = 'TAMAMLANDI';
+                    header.appendChild(badge);
+                }
+            });
+        }
+
+        // Smooth scroll enhancement
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add some interactive features
+        document.querySelectorAll('.info-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
